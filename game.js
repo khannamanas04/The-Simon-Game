@@ -1,12 +1,20 @@
+//ARRAYS THAT SAVES COLOUR OF BUTTONS
 var buttonColours = ["red", "blue", "green", "yellow"];
+
+//PATTERN THE GAME IS FOLLOWING
 var gamePattern = [];
+
+//PATTERN THE USER THE CLICKING IS GETTING SAVED HERE
 var userClickedPattern= []
 
+//TO KEEP A CHECK OF START OF THE GAME
 var started = false;
+//TO KEEP A CHECK OF LEVELS
 var level = 0;
 
+//DETECTING KEYPREES
 $(document).keydown(function(){
-  //so that keypress of only starting is detected..
+  //so that keypress of only starting is detected..(AS ACCORDING TO A KEYPRESS A NEW GAME STARTS AFTER GAME OVER)
   if(!started){
     $("#level-title").text("Level " + level);
     nextSequence();
@@ -14,12 +22,13 @@ $(document).keydown(function(){
   }
 })
 
+//CLICK OF BUTTON DETECTION
 $(".btn").click(function() {
 
-  //2. Inside the handler, create a new variable called userChosenColour to store the id of the button that got clicked.
+  //creating a new variable called userChosenColour to store the id of the button that got clicked.
   var userChosenColour = $(this).attr("id");
 
-  //4. Add the contents of the variable userChosenColour created in step 2 to the end of this new userClickedPattern
+  //Adding the contents of the variable userChosenColour created in the above step to the end of this new userClickedPattern
   userClickedPattern.push(userChosenColour);
 
   playSound(userChosenColour);
@@ -29,10 +38,11 @@ $(".btn").click(function() {
   checkAnswer(userClickedPattern.length-1);
 });
 
+//CHECKING THE ANSWER
 function checkAnswer(currentLevel){
   if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
 
-    //4. If the user got the most recent answer right in step 3, then check that they have finished their sequence with another if statement.
+    //If the user got the most recent answer right, then check that they have finished their sequence with another if statement.
     if (userClickedPattern.length === gamePattern.length){
 
       //5. Call nextSequence() after a 1000 millisecond delay.
@@ -55,6 +65,7 @@ function checkAnswer(currentLevel){
   }
 }
 
+//WHEN THE USER GIVES A WRONG ANSWER
 function startOver(){
   level = 0;
   gamePattern = [];
@@ -84,13 +95,14 @@ function nextSequence(){
   playSound(randomChosenColour);
 }
 
-
+//SOUND PLAYING FOR EACH CLICK
 function playSound(name){
 
   var audio = new Audio(name + ".mp3");
   audio.play();
 }
 
+//ANIMATION
 function animatePress(currentColour){
   $("#"+currentColour).addClass("pressed");
   setTimeout(function(){
